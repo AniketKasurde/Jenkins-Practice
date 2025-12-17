@@ -1,28 +1,36 @@
 pipeline {
-    agent any
+  agent any
 
-    stages {
-        stage('Create file') {
-            steps {
-                sh '''
-                    echo "This is a temp file" > temp.txt
-                    ls -l
-                '''
-            }
-        }
+  
+  stages {
+  
+    stage('always run'){
 
-        stage('Force failure') {
-            steps {
-                sh 'exit 1'
-            }
-        }
-    }
-
-    post {
-        always {
-            echo 'Cleaning workspace...'
-            cleanWs()
-        }
-    }
+	steps { 
+          echo "this runs on all branches"
+                  
 }
 
+}
+
+  stage('main only'){
+    
+     when {
+
+	branch 'main'
+
+}
+
+     steps {
+
+        echo "this runs only on main branch"
+
+}
+
+
+}
+
+}
+
+
+}
