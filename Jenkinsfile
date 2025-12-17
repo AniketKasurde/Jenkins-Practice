@@ -2,13 +2,15 @@ pipeline {
   agent any
 
 
- stages{
-stage('Verify Branch') {
+ stage('Main Only Stage') {
+    when {
+        branch 'main'
+    }
     steps {
-        echo "Branch name is: ${env.BRANCH_NAME}"
+        echo "This runs only on main"
     }
 }
- }
+
 
 }
 
