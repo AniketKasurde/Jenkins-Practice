@@ -1,36 +1,14 @@
 pipeline {
   agent any
 
-  
-  stages {
-  
-    stage('always run'){
 
-	steps { 
-          echo "this runs on all branches"
-                  
+ stages{
+stage('Verify Branch') {
+    steps {
+        echo "Branch name is: ${env.BRANCH_NAME}"
+    }
 }
-
-}
-
-  stage('main only'){
-    
-     when {
-
-	branch 'main'
+ }
 
 }
 
-     steps {
-
-        echo "this runs only on main branch"
-
-}
-
-
-}
-
-}
-
-
-}
