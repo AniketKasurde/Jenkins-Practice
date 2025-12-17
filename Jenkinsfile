@@ -1,7 +1,7 @@
 pipeline {
   agent any
 
-
+stages{
  stage('Main Only Stage') {
     when {
         branch 'main'
@@ -10,7 +10,7 @@ pipeline {
         echo "This runs only on main"
     }
 }
-
+}
 
 }
 
