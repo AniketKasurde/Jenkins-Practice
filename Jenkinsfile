@@ -2,13 +2,16 @@ pipeline {
     agent any
 
     stages {
-        stage('Build') {
+        stage('Create file') {
             steps {
-                sh 'echo "Building..."'
+                sh '''
+                    echo "This is a temp file" > temp.txt
+                    ls -l
+                '''
             }
         }
 
-        stage('Test') {
+        stage('Force failure') {
             steps {
                 sh 'exit 1'
             }
@@ -17,14 +20,8 @@ pipeline {
 
     post {
         always {
-            echo 'Cleaning up...'
-	    cleanWs()
-        }
-        success {
-            echo 'Build succeeded'
-        }
-        failure {
-            echo 'Build failed'
+            echo 'Cleaning workspace...'
+            cleanWs()
         }
     }
 }
