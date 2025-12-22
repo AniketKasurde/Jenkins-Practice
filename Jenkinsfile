@@ -2,40 +2,30 @@ pipeline {
     agent any
 
     stages {
-        stage('Identify Branch') {
+        stage('Checkout Code') {
             steps {
-                echo "Running on branch: ${env.BRANCH_NAME}"
+                checkout scm
             }
         }
 
-        stage('Build') {
+        stage('Verify Workspace') {
             steps {
-                echo 'Build runs on all branches'
-            }
-        }
+                sh '''
+                    echo "Current directory:"
+                    pwd
 
-        stage('Dev Only') {
-            when {
-                branch 'dev'
-            }
-            steps {
-                echo 'This runs only on dev'
-            }
-        }
-
-        stage('Main Only') {
-            when {
-                branch 'main'
-            }
-            steps {
-                echo 'This runs only on main'
+                    echo "Files in workspace:"
+                    ls -l
+                '''
             }
         }
     }
 
     post {
         always {
-            echo 'Pipeline finished'
+            echo "Cleaning workspace"
+            cleanWs()
         }
     }
 }
+
