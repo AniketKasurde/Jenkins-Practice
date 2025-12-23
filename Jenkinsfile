@@ -1,33 +1,22 @@
 pipeline {
-
-    agent any 
+    agent any
 
     parameters {
-        booleanParam(
-            name: 'RUN_TESTS',
-            defaultValue: true,
-            description: 'Run test stage or skip it'
+        choice(
+            name: 'ENV',
+            choices: ['dev', 'stage', 'prod'],
+            description: 'Deployment environment'
         )
     }
 
-    stages{
-        stage('build'){
-            
-            steps {
-                echo "build stage running"
-            }
-        }
-
-        stage('tests'){
-
+    stages {
+        stage('Deploy') {
             when {
-                expression {params.RUN_TESTS}
+                expression { params.ENV == 'dev' }
             }
-
             steps {
-                echo "running tests..."
+                echo "Deploying to DEV environment"
             }
         }
-    
     }
 }
