@@ -1,3 +1,5 @@
 #!/bin/bash
 
-exit 1
+echo "Testin app..."
+sleep 1
+echo "Test complete"

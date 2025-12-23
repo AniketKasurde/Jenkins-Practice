@@ -1,27 +1,33 @@
 pipeline {
+
     agent any
 
-    stages {
-        stage('Checkout') {
-            steps {
+    stages{
+
+        stage('checkout'){
+            steps{
                 checkout scm
-            }
+            }    
         }
 
-        stage('Build') {
+        stage('build'){
+
             steps {
                 sh './app.sh'
             }
         }
 
-        stage('Test') {
+        stage('Test'){
+
             steps {
                 sh './test.sh'
             }
         }
 
-        stage('Package') {
-            steps {
+        stage('Package'){
+            
+            steps{
+
                 sh '''
                     mkdir -p dist
                     echo "artifact content" > dist/app.txt
@@ -31,15 +37,12 @@ pipeline {
     }
 
     post {
-        success {
-            echo "CI pipeline succeeded"
+        success{
+            archiveArtifacts artifacts: 'dist/**', fingerprint: true
         }
-        failure {
-            echo "CI pipeline failed"
-        }
+
         always {
-            cleanWs()
+            cleansWs()
         }
     }
 }
-
