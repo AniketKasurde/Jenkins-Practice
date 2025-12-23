@@ -1,48 +1,21 @@
 pipeline {
-
     agent any
 
-    stages{
-
-        stage('checkout'){
-            steps{
-                checkout scm
-            }    
-        }
-
-        stage('build'){
-
+    stages {
+        stage('Build') {
             steps {
-                sh './app.sh'
-            }
-        }
-
-        stage('Test'){
-
-            steps {
-                sh './test.sh'
-            }
-        }
-
-        stage('Package'){
-            
-            steps{
-
                 sh '''
                     mkdir -p dist
-                    echo "artifact content" > dist/app.txt
+                    echo "Build output $(date)" > dist/app.txt
                 '''
             }
         }
     }
 
     post {
-        success{
-            archiveArtifacts artifacts: 'dist/**', fingerprint: true
-        }
-
         always {
-            cleansWs()
+            archiveArtifacts artifacts: 'dist/**', fingerprint: true
+            cleanWs()
         }
     }
 }
