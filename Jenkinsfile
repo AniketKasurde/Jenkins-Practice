@@ -1,19 +1,33 @@
 pipeline {
-    agent any
+
+    agent any 
 
     parameters {
-        string(
-            name: 'APP_VERSION',
-            defaultValue: '1.0.0',
-            description: 'Application version to build'
+        booleanParam(
+            name: 'RUN_TESTS',
+            defaultValue: true,
+            description: 'Run test stage or skip it'
         )
     }
 
-    stages {
-        stage('Show Version') {
+    stages{
+        stage('build'){
+            
             steps {
-                echo "Building version: ${params.APP_VERSION}"
+                echo "build stage running"
             }
         }
+
+        stage('tests'){
+
+            when {
+                expression {param.RUN_TESTS}
+            }
+
+            steps {
+                echo "running tests..."
+            }
+        }
+    
     }
 }
